@@ -51,6 +51,11 @@ def validate_sql(sql: str) -> str:
 
     lower_sql = cleaned.lower()
 
+    # Block destructive keywords.
+    for keyword in BLOCKED_KEYWORDS:
+        if re.search(rf"\b{keyword}\b", lower_sql):
+            raise ValueError("Destructive or write SQL is blocked.")
+    
     # Only SELECT statements are allowed.
     if not lower_sql.startswith("select"):
         raise ValueError("Only SELECT statements are allowed.")
@@ -59,10 +64,6 @@ def validate_sql(sql: str) -> str:
     if ";" in cleaned:
         raise ValueError("Multiple SQL statements are not allowed.")
 
-    # Block destructive keywords.
-    for keyword in BLOCKED_KEYWORDS:
-        if re.search(rf"\b{keyword}\b", lower_sql):
-            raise ValueError("Destructive or write SQL is blocked.")
 
     # Block SQL comments.
     if "--" in cleaned or "/*" in cleaned or "*/" in cleaned:

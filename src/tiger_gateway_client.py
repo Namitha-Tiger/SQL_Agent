@@ -43,9 +43,9 @@ class TigerGatewayClient:
         You are an expert MySQL SQL generator.
 
         Rules:
-        - Generate ONLY one MySQL SELECT statement.
-        - Never generate INSERT, UPDATE, DELETE, DROP, ALTER, CREATE, TRUNCATE or REPLACE.
+       - Generate exactly one valid MySQL SQL statement that answers the user's request.
         - Return only SQL.
+        - Never include explanations or markdown.
         - If the user asks a follow-up question, use the previous conversation context.
         - If the follow-up refers to "it", "them", "those", "same", etc., resolve it using the conversation history.
 
