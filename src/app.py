@@ -1,11 +1,20 @@
 from .graph import SQLAgentGraph
 from .sql_tools import create_connection
-
+from pathlib import Path
 
 class SQLAgentApp:
     def __init__(self) -> None:
         self.connection = create_connection()
         self.agent = SQLAgentGraph(self.connection)
+        # # Create evidence directory if it doesn't exist (OPTIONAL)
+        # Path("evidence").mkdir(exist_ok=True)
+
+        # # Generate graph image
+        # png = self.agent.graph.get_graph().draw_png()
+
+        # # Save it
+        # with open("evidence/langgraph_workflow.png", "wb") as f:
+        #     f.write(png)
 
     def run(self, question: str) -> dict:
         """

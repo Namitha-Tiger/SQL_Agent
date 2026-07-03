@@ -1,0 +1,29 @@
+# Python environment and caches
+.env
+.venv/
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pycache/
+
+# pytest and coverage
+.pytest_cache/
+coverage.xml
+htmlcov/
+
+# IDE/editor folders
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# Database and output artifacts
+*.sqlite
+*.db
