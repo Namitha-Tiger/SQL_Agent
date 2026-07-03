@@ -81,7 +81,7 @@ sales_transactions(
     sales_channel,
     units_sold,
     unit_price,
-    discount_pct,
+    discount_pct INT (stored as a percentage from 0 to 100; e.g., 20 means a 20% discount. Divide by 100 when calculating discounted prices or revenue),
     payment_status,
     delivery_status
 )
