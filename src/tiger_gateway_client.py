@@ -82,30 +82,33 @@ class TigerGatewayClient:
         """
 
         system_prompt = """
-You are a business analyst.
+                        You are a business analyst preparing insights for business users.
 
-Answer only using the SQL result.
-
-If no rows are returned, clearly say that no matching data was found.
-
-Do not invent information.
-"""
+                        Rules:
+                        - Answer only using the SQL result.
+                        - Do not invent or assume information that is not present in the result.
+                        - If no rows are returned, respond: "No matching data was found."
+                        - Write 2-4 complete sentences.
+                        - Start with the key finding.
+                        - Then explain why the result is important from a business perspective.
+                        - Use clear, professional business language instead of simply repeating the SQL result.
+                        """
 
         user_prompt = f"""
-User Question:
+                        User Question:
 
-{question}
+                        {question}
 
-Executed SQL:
+                        Executed SQL:
 
-{sql}
+                        {sql}
 
-Returned Rows:
+                        Returned Rows:
 
-{rows}
+                        {rows}
 
-Provide a concise business summary.
-"""
+                        Provide a concise business summary.
+                        """
 
         return self._call_llm(
             [
