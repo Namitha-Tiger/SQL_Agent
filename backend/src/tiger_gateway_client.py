@@ -1,4 +1,5 @@
 import requests
+import openai
 
 from .config import get_settings
 from urllib.parse import urljoin
@@ -14,25 +15,36 @@ class TigerGatewayClient:
         generated response text.
         """
 
-        response = requests.post(
-            urljoin(self.settings.llm_base_url, "v1/chat/completions"),
-            headers={
-                "Authorization": f"Bearer {self.settings.llm_api_key}",
-                "Content-Type": "application/json",
-            },
-            json={
-                "model": self.settings.llm_model,
-                "messages": messages,
-                "temperature": 0,
-            },
-            timeout=60,
+        llm_base_url = self.settings.llm_base_url
+        if llm_base_url is None:
+            raise ValueError("LLM base URL is not configured.")
+
+        # response = requests.post(
+        #     urljoin(llm_base_url, "v1/chat/completions"),
+        #     headers={
+        #         "Authorization": f"Bearer {self.settings.llm_api_key}",
+        #         "Content-Type": "application/json",
+        #     },
+        #     json={
+        #         "model": self.settings.llm_model,
+        #         "messages": messages,
+        #         "temperature": 0,
+        #     },
+        #     timeout=60,
+        # )
+        client = openai.OpenAI(api_key=self.settings.llm_api_key, base_url=llm_base_url)
+        response = client.chat.completions.create(
+            model=self.settings.llm_model,
+            messages=messages,
+            temperature=0
         )
 
-        response.raise_for_status()
+        # response.raise_for_status()
 
-        result = response.json()
+        # result = response.json()
 
-        return result["choices"][0]["message"]["content"].strip()
+        # return result["choices"][0]["message"]["content"].strip()
+        return response.choices[0].message.content.strip()
 
     def generate_sql(self, question: str, schema: str, history: str) -> str:
         """
